@@ -54,8 +54,15 @@ public class GameManager : RingSingleton<GameManager>
         if (_gameController._level == null)
         {
             // Nếu _gameController._level đã bị xóa hoàn toàn, tiến hành tạo cấp độ mới
+            if (LoadLevel() >= 4)
+            {
+                SaveLevel(1);
+            }
+
             var level = Resources.Load<GameObject>("Level " + LoadLevel());
             _gameController._level = Instantiate(level, Vector3.zero, Quaternion.identity).transform;
+            _gameController._level.SetParent(UiManager.Instance._levelPosition);
+            _gameController._level.localPosition = Vector3.zero;
             UiManager.Instance.InitDataUI();
             UiManager.Instance.PlayGame();
             if (level != null)

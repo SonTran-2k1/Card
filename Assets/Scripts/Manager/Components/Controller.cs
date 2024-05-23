@@ -6,6 +6,7 @@ using UnityEngine;
 using Ring;
 using TMPro;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Controller
 {
@@ -37,12 +38,23 @@ namespace Controller
         [HeaderTextColor(0.2f, .7f, .8f, headerText = "Game Controller")] [ChangeColorLabel(0.2f, 1, 1)]
         public StateGame _stateGame;
 
-        [ChangeColorLabel(0.2f, 1, 1)] public CardManager _card1;
-        [ChangeColorLabel(0.2f, 1, 1)] public CardManager _card2;
-        [ChangeColorLabel(0.2f, 1, 1)] public List<DataGame> _listDataLevel;
-        [ChangeColorLabel(0.2f, 1, 1)] public Transform _level;
-        [ChangeColorLabel(0.2f, 1, 1)] public List<CardManager> _listCard;
-        [ChangeColorLabel(0.2f, 1, 1)] public Transform destination;
+        [ReadOnly] [ChangeColorLabel(0.2f, 1, 1)]
+        public CardManager _card1;
+
+        [ReadOnly] [ChangeColorLabel(0.2f, 1, 1)]
+        public CardManager _card2;
+
+        [ReadOnly] [ChangeColorLabel(0.2f, 1, 1)]
+        public List<DataGame> _listDataLevel;
+
+        [ReadOnly] [ChangeColorLabel(0.2f, 1, 1)]
+        public Transform _level;
+
+        [ReadOnly] [ChangeColorLabel(0.2f, 1, 1)]
+        public List<CardManager> _listCard;
+
+        [ReadOnly] [ChangeColorLabel(0.2f, 1, 1)]
+        public Transform destination;
 
         [HeaderTextColor(0.2f, .7f, .8f, headerText = "Text Minus")] [ChangeColorLabel(0.2f, 1, 1)]
         public Transform txtMinus;
@@ -98,6 +110,9 @@ namespace Controller
         public DOTween A;
         [ChangeColorLabel(.7f, 1f, 1f)] public TypeCard _typeCard;
         [ChangeColorLabel(.7f, 1f, 1f)] public int _directionRotate;
+        [ChangeColorLabel(.7f, 1f, 1f)] public RectTransform _countCard;
+        [ChangeColorLabel(.7f, 1f, 1f)] public RectTransform _behindCard;
+        [ChangeColorLabel(.7f, 1f, 1f)] public Button _btnCard;
     }
 }
 

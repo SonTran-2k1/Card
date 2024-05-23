@@ -12,9 +12,12 @@ using UnityEngine.EventSystems;
 public class UiManager : RingSingleton<UiManager>
 {
     public UiController _uiController;
+    public RectTransform _destination;
+    public RectTransform _levelPosition;
 
     private void Start()
     {
+        GameManager.Instance._gameController.destination = _destination;
     }
 
     public void PlayGame()
@@ -45,7 +48,7 @@ public class UiManager : RingSingleton<UiManager>
             if (GameManager.Instance._gameController._card1._cardManager._typeCard.ToString()
                 .Equals(GameManager.Instance._gameController._card2._cardManager._typeCard.ToString()))
             {
-                //move về 1 position
+                //move 2 card về 1 position
                 GameManager.Instance._gameController._card1.transform.DOMove(
                     GameManager.Instance._gameController.destination.position, 1).OnStart((() =>
                 {
@@ -54,6 +57,7 @@ public class UiManager : RingSingleton<UiManager>
                 {
                     GameManager.Instance._gameController._stateGame = StateGame.Empty;
                     GameManager.Instance._gameController._card1.ClickCard(Settings.Direction_CLose);
+                    GameManager.Instance._gameController._card1._cardManager._btnCard.interactable = false;
                 }));
                 GameManager.Instance._gameController._card2.transform.DOMove(
                     GameManager.Instance._gameController.destination.position, 1).OnStart((() =>
@@ -63,6 +67,7 @@ public class UiManager : RingSingleton<UiManager>
                 {
                     GameManager.Instance._gameController._stateGame = StateGame.Empty;
                     GameManager.Instance._gameController._card2.ClickCard(Settings.Direction_CLose);
+                    GameManager.Instance._gameController._card2._cardManager._btnCard.interactable = false;
                 }));
                 GameManager.Instance._gameController._listCard.Remove(GameManager.Instance._gameController._card1);
                 GameManager.Instance._gameController._listCard.Remove(GameManager.Instance._gameController._card2);
@@ -100,6 +105,7 @@ public class UiManager : RingSingleton<UiManager>
     {
         // Wait until the tween is complete
         yield return new WaitForSeconds(4);
+        Destroy(GameManager.Instance._gameController._level.gameObject);
         _uiController._winTransform.gameObject.SetActive(false);
         int level = GameManager.Instance.LoadLevel();
         level++;
@@ -112,6 +118,7 @@ public class UiManager : RingSingleton<UiManager>
     {
         // Wait until the tween is complete
         yield return new WaitForSeconds(4);
+        GameManager.Instance._gameController._listCard.ForEach(a => a._cardManager._btnCard.interactable = false);
         _uiController._loseTransform.gameObject.SetActive(false);
         HomeGame();
         // Do something after the tween is complete

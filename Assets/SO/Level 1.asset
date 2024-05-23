@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58edc086f5a04ee489e20d3818c1b503, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  time: 120
-  money: 460
+  time: 60
+  money: 100

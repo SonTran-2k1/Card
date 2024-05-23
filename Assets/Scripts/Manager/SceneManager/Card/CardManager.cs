@@ -9,12 +9,23 @@ using UnityEngine;
 public class CardManager : MonoBehaviour
 {
     public CardController _cardManager;
+    [ReadOnly] public bool isCheckShowCard; //cờ thay đổi sorting layer card
 
     private void Start()
     {
     }
 
     private void OnMouseDown()
+    {
+        //ClickObject();
+    }
+
+    private void Update()
+    {
+        //Bug.LogError(transform.eulerAngles.y);
+    }
+
+    public void ClickObject()
     {
         if (GameManager.Instance._gameController._stateGame != StateGame.Empty)
         {
@@ -71,10 +82,16 @@ public class CardManager : MonoBehaviour
             {
                 for (int i = 0; i < GameManager.Instance._gameController._listCard.Count; i++)
                 {
-                    if (GameManager.Instance._gameController._listCard[i] != this)
+                    if (GameManager.Instance._gameController._listCard[i] != this &&
+                        this != GameManager.Instance._gameController._card1)
                     {
                         GameManager.Instance._gameController._card2 = this;
                     }
+                }
+
+                if (GameManager.Instance._gameController._card1 == this)
+                {
+                    return;
                 }
             }
         }
@@ -101,8 +118,20 @@ public class CardManager : MonoBehaviour
                     #endregion
 
                     _cardManager._directionRotate = Direction;
-                }).OnComplete((() =>
+                }).OnUpdate((() =>
             {
+                if (transform.eulerAngles.y >= 90 && !isCheckShowCard)
+                {
+                    isCheckShowCard = true;
+                    //thay đổi vị trí các hình ảnh của thẻ
+                    int indexCountCard = _cardManager._countCard.GetSiblingIndex();
+                    int indexBehindCard = _cardManager._behindCard.GetSiblingIndex();
+                    _cardManager._countCard.SetSiblingIndex(indexBehindCard);
+                    _cardManager._behindCard.SetSiblingIndex(indexCountCard);
+                }
+            })).OnComplete((() =>
+            {
+                isCheckShowCard = false;
                 _cardManager._tween = null;
                 GameManager.Instance._gameController._stateGame = StateGame.Empty;
                 if (Direction == Settings.Direction_Open)
